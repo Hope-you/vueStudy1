@@ -1,8 +1,8 @@
 import { ref } from "vue";
 import axios from "axios";
-
 function useUrlAxios(url: string) {
-    const result = ref(null);
+    //这里给result指定了any类型,不然父组件会报错,其实也可以定义一个interface然后指定
+    const result: any = ref(null);
     const loading = ref(true);
     const loaded = ref(false);
     const error = ref(null);
