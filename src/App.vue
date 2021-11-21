@@ -1,23 +1,23 @@
 <template>
-  <h2>请选择食物</h2>
+  <!-- <h2>请选择食物</h2> -->
   <Suspense>
     <!-- 如果加载加载成功会显示default模板内容 -->
     <template #default>
-      <AsyncShowVue></AsyncShowVue>
+      <AsyncShowTruthVue></AsyncShowTruthVue>
     </template>
     <!-- 会先显示fallback模板, -->
     <template #fallback>
-      <h1>Loading...</h1>
+      <h1>正在加载...</h1>
     </template>
   </Suspense>
 </template>
 
 <script lang="ts">
-import AsyncShowVue from "./components/AsyncShow.vue";
+import AsyncShowTruthVue from "./components/AsyncShowTruth.vue";
 //axios
 export default {
   name: "App",
-  components: { AsyncShowVue },
+  components: { AsyncShowTruthVue },
   setup() {
     return {}
   }
