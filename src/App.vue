@@ -11,14 +11,19 @@
       @click="selectFood(index)"
     >{{ index }}:{{ item }}</el-button>
   </div>
-  <!-- 教程里面说要添加data.selectedFood 但是我好像直接不用写data,写data反而会报错 -->
+  <!-- 教程里面说要添加data.selectedFood 但是我好像直接不用写data,写data反而会报错
+  好像也不是,可能return有问题,可以用toRefs()转化成渐进式数据
+  -->
   <div>您选择了{{ selectedFood }}</div>
+
+  <el-button type="success" size="medium" @click="overAction()">选择完毕</el-button>
+  <div>{{ overText }}</div>
 </template>
 
 <script lang="ts">
 
 //reactive()
-import { defineComponent, ref, reactive, onBeforeMount, onMounted, onBeforeUpdate, onUpdated } from 'vue';
+import { defineComponent, ref, reactive, onBeforeMount, onMounted, onBeforeUpdate, onUpdated, toRefs, watch } from 'vue';
 
 //类型注解 使用typescript
 interface dataProps {
@@ -38,20 +43,25 @@ export default {
       selectFood: (index: number) => {
         data.selectedFood = data.foods[index]
       }
-    }); onMounted(() => {
-      console.log("3组件创建之后执行---onMounted")
     });
-    onBeforeMount(() => {
-      console.log("2组件挂载之间执行---onBeforeMount")
-    });
+    const overText = ref("请点餐");
+    const overAction = () => {
+      overText.value = "点餐完成";
+      // document.title = overText.value
+    }
 
-    onBeforeUpdate(() => {
-      console.log("4组件挂载到页面之后执行---onBeforeUpdate")
-    });
-    onUpdated(() => {
-      console.log("5组件更新之后执行---onUpdated")
+    //看不明白,为啥鉴定setup中的数据要用箭头函数
+    watch([overText, () => data.selectedFood], (newValue, oldValue) => {
+      console.log(`new--->${newValue}`);
+      console.log(`old--->${oldValue}`);
+      document.title = newValue[0];
     })
-    return data;
+
+    return {
+      ...toRefs(data),
+      overText,
+      overAction
+    };
   },
 
 };
