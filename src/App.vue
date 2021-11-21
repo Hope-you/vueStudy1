@@ -14,6 +14,9 @@
         <modal :id="scope.row.score"></modal>
       </el-table-column>
     </el-table>
+    <Teleport to="#teleport">
+      <div>挂载到其他的dom节点,在public/index.htem中</div>
+    </Teleport>
   </div>
 </template>
 
